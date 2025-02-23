@@ -19,9 +19,9 @@ def cmyk_to_pillow(c, m, y, k):
 
 #  ------- Define vectors sets  ------- 
 RGB_basis = np.array([
-    [1, 0, 1],  # color 1
-    [1, 1, 1],  # color 2
-    [0, 1, 1]   # color 3
+    [0.3,0.2, 0],  # color 1
+    [1, 1, 0],  # color 2
+    [1, 1, 0]   # color 3
 ])
 
 #  ------- Display Vectors in CMYK  -------
@@ -52,3 +52,29 @@ ax.set_yticks([])
 ax.set_frame_on(False)
 
 plt.savefig("rgb_colors.jpg", dpi=300)
+
+
+def cmyk_to_rgb(c, m, y, k):
+    r = 1 - min(1, c * (1 - k) + k)
+    g = 1 - min(1, m * (1 - k) + k)
+    b = 1 - min(1, y * (1 - k) + k)
+    return (r, g, b)
+
+# Define a CMYK color that is difficult to represent in RGB
+cmyk_color = (0.3, 0.26, 0.15, 0.11)  # Pure cyan and magenta
+
+# Convert the CMYK color to RGB
+rgb_color = cmyk_to_rgb(*cmyk_color)
+
+# Print the RGB values
+print("CMYK color:", cmyk_color)
+print("Converted RGB color:", rgb_color)
+
+# Check if the RGB values are within the valid range (0-1)
+if any(value < 0 or value > 1 for value in rgb_color):
+    print("The RGB color space cannot represent this CMYK color.")
+else:
+    print("The RGB color space can represent this CMYK color.")
+
+
+    plt.savefig("cmyk_to_rgb.jpg", dpi=300)
